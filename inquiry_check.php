@@ -3,6 +3,11 @@ require_once('functions.php');
 error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 
+if (empty($_SESSION['id']))
+{
+  header('Location: login.php');
+  exit;
+}
 
 
 $sort = array(
@@ -14,10 +19,10 @@ $sort = array(
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-  $name = $_POST['name'];
-  $mailaddress = $_POST['mailaddress'];
-  $sorts = $_POST["sort"];
-  $question = $_POST['question'];
+  $name = $_SESSION['name'];
+  $mailaddress = $_SESSION['mailaddress'];
+  $sorts = $sort[$_SESSION['sort']];
+  $question = $_SESSION['question']
 
 
 
@@ -62,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 
 <p>お問い合わせ</p>
-<form action="thanks.php" method="post" id="myform">
+<form action="" method="post" id="myform">
 <table>
 <tr>
 <th><label for="user">名前</label></th>
@@ -81,12 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <td><?php echo h($_SESSION['question']) ?></td>
 </tr>
 </table>
-</form>
-<form method="post" action="">
-    <input name="name" type="hidden" value="<?php echo $_SESSION['name'] ?>">
-    <input name="mailaddress" type="hidden" value="<?php echo $_SESSION['mailaddress'] ?>">
-    <input name="sort" type="hidden" value="<?php echo $sort[$_SESSION['sorts']] ?>">
-    <input name="question" type="hidden" value="<?php echo $_SESSION['question'] ?>">
 <p>
   <input class="botton1" type="submit" onclick="history.back()" value="戻る">
   <input class="botton2" type="submit" value="送信する">
